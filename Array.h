@@ -23,12 +23,12 @@ public:
         ~Array();
         void push_back(T back_dig);
         T operator[](T digital) const;
-        T & operator[](T digital);
+        T& operator[](T digital);
         void Show();
 };
 
 template <typename T>
-T Array<T>::operator[](T digital)
+T Array<T>::operator[](T digital) const
 {
     if (digital >= m_size)
         throw std::invalid_argument ("Out of range");
@@ -107,7 +107,7 @@ void Array<T>::resize(size_t new_size)
             construct(&tmp[i], m_arr[i]);
             destroy(&m_arr[i]);
         }
-        for (size_t i = min_size+1; i < new_size; ++i)   {
+        for (size_t i = m_size+1; i < new_size; ++i)   {
             construct(&tmp[i], T());
         }
     }
