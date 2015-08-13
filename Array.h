@@ -6,7 +6,7 @@
 using namespace std;
 
 template<class T>
-class Array
+class myVector
 {
 private:
         size_t m_size;
@@ -17,10 +17,9 @@ private:
         void destroy(T* data);
         void deallocate(T* data);
 public:
-        Array(size_t m_size);
-        Array(const Array &Right);
+        myVector(size_t m_size);
         void resize(size_t new_size);
-        ~Array();
+        ~myVector();
         void push_back(T back_dig);
         T operator[](T digital) const;
         T& operator[](T digital);
@@ -28,7 +27,7 @@ public:
 };
 
 template <typename T>
-T Array<T>::operator[](T digital) const
+T myVector<T>::operator[](T digital) const
 {
     if (digital >= m_size)
         throw std::invalid_argument ("Out of range");
@@ -36,7 +35,7 @@ T Array<T>::operator[](T digital) const
 }
 
 template <typename T>
-T& Array<T>::operator[](T digital)
+T& myVector<T>::operator[](T digital)
 {
     if (digital >= m_size)
         throw std::invalid_argument ("Out of range");
@@ -44,7 +43,7 @@ T& Array<T>::operator[](T digital)
 }
 
 template<typename T>
-Array<T>::Array(size_t size):m_size(size), m_curInd(0)
+myVector<T>::myVector(size_t size):m_size(size), m_curInd(0)
 {
     cout << "==================C of array==================" << endl;
     m_arr = allocate(size);
@@ -54,33 +53,33 @@ Array<T>::Array(size_t size):m_size(size), m_curInd(0)
 }
 
 template<typename T>
-T* Array<T>::allocate(size_t amount)
+T* myVector<T>::allocate(size_t amount)
 {
     uint8_t *tmp = new uint8_t[amount*sizeof(T)];
     return reinterpret_cast<T *> (tmp);
 }
 
 template<typename T>
-void Array<T>::construct(T* data, T value)
+void myVector<T>::construct(T* data, T value)
 {
     new(data) T(value);
 }
 
 template<typename T>
-void Array<T>::deallocate(T* data)
+void myVector<T>::deallocate(T* data)
 {
     uint8_t *temp = reinterpret_cast<uint8_t *>(data);
     delete[] temp;
 }
 
 template<typename T>
-void Array<T>::destroy(T* data)
+void myVector<T>::destroy(T* data)
 {
     data->~T();
 }
 
 template<typename T>
-void Array<T>::push_back(T back_dig)
+void myVector<T>::push_back(T back_dig)
 {
     m_size += 1;
     T* tmp = allocate(m_size);
@@ -94,7 +93,7 @@ void Array<T>::push_back(T back_dig)
 }
 
 template<typename T>
-void Array<T>::resize(size_t new_size)
+void myVector<T>::resize(size_t new_size)
 {
     if (m_size == new_size) {
         cout << "New size is the same." << endl;
@@ -124,7 +123,7 @@ void Array<T>::resize(size_t new_size)
 }
 
 template<typename T>
-Array<T>::~Array()
+myVector<T>::~myVector()
 {
     cout << "==================D of array==================" << endl;
     for (size_t i = 0; i < m_size; ++i) {
@@ -134,7 +133,7 @@ Array<T>::~Array()
 }
 
 template<typename T>
-void Array<T>::Show()
+void myVector<T>::Show()
 {
     for (int i = 0; i < m_size; ++i)
         cout << m_arr[i] << endl;
