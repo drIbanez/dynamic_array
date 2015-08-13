@@ -21,6 +21,7 @@ public:
         void resize(size_t new_size);
         ~myVector();
         void push_back(T back_dig);
+        void sort();
         T operator[](T digital) const;
         T& operator[](T digital);
         void Show();
@@ -46,6 +47,10 @@ template<typename T>
 myVector<T>::myVector(size_t size):m_size(size), m_curInd(0)
 {
     cout << "==================C of array==================" << endl;
+    if (size < 0)
+        throw invalid_argument("Sub zero size");
+    if (!size)
+        throw invalid_argument("Wrong type");
     m_arr = allocate(size);
     for (int i = 0; i < size; ++i)  {
         construct(&m_arr[i], T());
@@ -99,6 +104,8 @@ void myVector<T>::resize(size_t new_size)
         cout << "New size is the same." << endl;
         return;
     }
+    if(new_size < 0)
+        throw std::invalid_argument("Sub zero size");
     cout << "Current size: " << m_size << endl;
     T* tmp = allocate(new_size);
     if (m_size < new_size)  {
@@ -133,9 +140,25 @@ myVector<T>::~myVector()
 }
 
 template<typename T>
+void myVector<T>::sort()
+{
+    T tmp;
+    for (int i = 0; i < m_size-1; ++i)    {
+        for (int j = 0; j < m_size-1; ++j)  {
+            if (m_arr[j + 1] < m_arr[j])
+            {
+                tmp = m_arr[j + 1];
+                m_arr[j + 1] = m_arr[j];
+                m_arr[j] = tmp;
+            }
+        }
+    }
+}
+
+template<typename T>
 void myVector<T>::Show()
 {
     for (int i = 0; i < m_size; ++i)
-        cout << m_arr[i] << endl;
+        cout << m_arr[i] << ' ';
 }
 #endif // ARRAY_H
